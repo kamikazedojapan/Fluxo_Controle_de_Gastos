@@ -18,28 +18,28 @@ Também inclui uma tela de metas que calcula quanto guardar por mês, apresenta 
 - O projeto foi limpo para não versionar `.env`, `.git` e `node_modules`.
 
 ## Como executar localmente
-
-1. Copie `.env.example` para `.env`.
-2. Preencha `MONGODB_URI` com sua string do MongoDB Atlas.
-3. Instale as dependências:
+1. Clone o repositório
+2. Copie `.env.example` para `.env`.
+3. Preencha `MONGODB_URI` com sua string do MongoDB Atlas.
+4. Instale as dependências:
 
 ```bash
 npm install
 ```
 
-4. Rode os testes:
+5. Rode os testes:
 
 ```bash
 npm test
 ```
 
-5. Inicie o servidor:
+6. Inicie o servidor:
 
 ```bash
 npm start
 ```
 
-6. Acesse `http://localhost:3000`.
+7. Acesse `http://localhost:3000`.
 
 ## Como testar o deploy
 
