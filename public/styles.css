@@ -108,6 +108,99 @@ tbody tr:hover { background: rgba(217,238,156,.12); }
 .mini-track { flex: 1; height: 5px; border-radius: 8px; background: var(--green-soft); overflow: hidden; }
 .mini-track i { display: block; height: 100%; background: var(--green); }
 .progress-cell span { min-width: 42px; color: var(--muted); font-size: .75rem; }
+.daily-summary-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.daily-control {
+  display: grid;
+  grid-template-columns: minmax(280px, .75fr) minmax(0, 1.4fr);
+  gap: 22px;
+  align-items: start;
+  margin-top: 22px;
+}
+
+.expense-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.expense-form h2 {
+  margin-bottom: 24px;
+}
+
+.control-input {
+  width: 100%;
+  height: 58px;
+  padding: 0 17px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  outline: 0;
+  background: rgba(255, 255, 255, .78);
+  color: var(--ink);
+  font: 600 1rem "DM Sans", sans-serif;
+  transition: .2s;
+}
+
+.control-input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(23, 107, 81, .1);
+}
+
+select.control-input {
+  cursor: pointer;
+}
+
+.expense-history {
+  min-width: 0;
+}
+
+.expense-table {
+  min-width: 600px;
+}
+
+.category-pill {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+.expense-action {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.delete-expense {
+  width: auto;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(188, 76, 69, .25);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--red);
+  font-size: .72rem;
+}
+
+.delete-expense:hover {
+  background: #f5dfdc;
+  color: var(--red);
+  transform: none;
+}
+
+.empty-expenses {
+  padding: 34px 30px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.form-status.success {
+  color: var(--green);
 
 @media (max-width: 800px) {
   .shell { width: min(100% - 28px, 600px); }
@@ -120,7 +213,15 @@ tbody tr:hover { background: rgba(217,238,156,.12); }
   .schedule-header { align-items: flex-start; flex-direction: column; }
   .goal-summary { grid-template-columns: 1fr; }
   .legend { flex-wrap: wrap; }
+  .daily-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .daily-control {
+    grid-template-columns: 1fr;
+  }
 }
+
 @media (max-width: 480px) {
   .brand > span:last-child { display: none; }
   .nav-button { padding: 0 10px; font-size: .72rem; }
@@ -130,5 +231,10 @@ tbody tr:hover { background: rgba(217,238,156,.12); }
   .summary-card { min-height: 145px; }
   .goal-detail-card { grid-template-columns: 1fr; }
   .goal-detail-card p, .goal-progress-track { grid-column: auto; }
+  .daily-summary-grid {
+    grid-template-columns: 1fr;
+  }
 }
+
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }
+}
