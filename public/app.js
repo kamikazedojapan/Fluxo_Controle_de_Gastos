@@ -290,16 +290,7 @@ form.addEventListener(
 
       const payload = {
         monthlyIncome,
-
-        /*
-         * Valor temporário.
-         *
-         * O backend antigo ainda possui
-         * monthlyExpenses como campo obrigatório.
-         * Ele será removido em uma etapa posterior.
-         */
-        monthlyExpenses: 0,
-
+        
         startDate:
           form.startDate.value,
       };
@@ -713,7 +704,6 @@ goalForm.addEventListener(
     }
   },
 );
-
 
 loadBudget();
 loadSavingsGoal();

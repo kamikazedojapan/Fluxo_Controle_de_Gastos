@@ -2,14 +2,14 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
-  calculateDailyLimit,
+  calculateDailyBaseLimit,
   calculatePlanDay,
   calculateDailySummary,
   validateNewExpense,
 } = require('../src/domain/dailyExpenseCalculator');
 
 test('calcula corretamente o limite diário base', () => {
-  const result = calculateDailyLimit(3000);
+  const result = calculateDailyBaseLimit(3000);
 
   assert.equal(result, 100);
 });

@@ -1,11 +1,10 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
-const { calculateBudget } = require('../src/domain/budgetCalculator');
 const { calculateSavingsGoal } = require('../src/domain/savingsCalculator');
 
 const publicDir = path.join(__dirname, '..', 'public');
-let budget = { monthlyIncome: 1490.10, monthlyExpenses: 257.75, startDate: '2026-06-22' };
+let budget = { monthlyIncome: 1490.10, startDate: '2026-06-22' };
 let savingsGoal = { targetAmount: 12000, months: 12 };
 
 const server = http.createServer((request, response) => {

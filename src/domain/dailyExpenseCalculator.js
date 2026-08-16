@@ -49,7 +49,7 @@ function toMoney(cents) {
   return Number((cents / 100).toFixed(2));
 }
 
-function calculateDailyLimit(monthlyIncome) {
+function calculateDailyBaseLimit(monthlyIncome) {
   assertMoney(monthlyIncome, 'Receita mensal');
 
   const incomeCents = toCents(monthlyIncome);
@@ -103,7 +103,7 @@ function calculateDailySummary({
   const incomeCents = toCents(monthlyIncome);
 
   const dailyBaseLimit =
-    calculateDailyLimit(monthlyIncome);
+    calculateDailyBaseLimit(monthlyIncome);
 
   if (planDay === 0) {
     return {
@@ -286,7 +286,7 @@ function validateNewExpense({
 }
 
 module.exports = {
-  calculateDailyLimit,
+  calculateDailyBaseLimit,
   calculatePlanDay,
   calculateDailySummary,
   validateNewExpense,
