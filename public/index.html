@@ -1,136 +1,312 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Planejamento mensal e diário de gastos">
-  <title>Fluxo — Controle de gastos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
-  <main class="shell">
-    <header class="topbar">
-      <a class="brand" href="#" aria-label="Fluxo, início">
-        <span class="brand-mark">F</span><span>fluxo</span>
-      </a>
-      <nav class="main-nav" aria-label="Navegação principal">
-        <button class="nav-button active" type="button" data-view="budget-view">Controle mensal</button>
-        <button class="nav-button" type="button" data-view="goal-view">Minha meta</button>
-      </nav>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Planejamento mensal e diário de gastos" />
+    <title>Fluxo — Controle de gastos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
 
-    <div id="budget-view" class="app-view active">
-    <section class="hero">
-      <div>
-        <span class="eyebrow">PLANEJAMENTO MENSAL</span>
-        <h1>Quanto cabe<br>no seu <em>hoje?</em></h1>
-        <p class="intro">Informe sua receita e seus gastos. A gente transforma o mês em um plano diário simples de acompanhar.</p>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Fluxo, início">
+          <span class="brand-mark">F</span><span>fluxo</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegação principal">
+          <button
+            class="nav-button active"
+            type="button"
+            data-view="budget-view"
+          >
+            Controle mensal
+          </button>
+          <button class="nav-button" type="button" data-view="goal-view">
+            Minha meta
+          </button>
+        </nav>
+      </header>
+
+      <div id="budget-view" class="app-view active">
+        <section class="hero">
+          <div>
+            <span class="eyebrow">CONTROLE DIÁRIO</span>
+            <h1>
+              Quanto cabe<br />
+              no seu <em>hoje</em>
+            </h1>
+            <p>
+              Informe sua receita mensal e acompanhe quanto está disponível para
+              gastar a cada dia. O que não for utilizado é acumulado para os
+              dias seguintes.
+            </p>
+          </div>
+
+          <form id="budget-form" class="budget-form">
+            <div class="field">
+              <label for="income"> Receita total do mês </label>
+              <div class="money-input">
+                <span>R$</span>
+                <input
+                  id="income"
+                  name="monthlyIncome"
+                  inputmode="decimal"
+                  placeholder="0,00"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="start-date"> Data inicial do planejamento </label>
+              <input
+                class="date-input"
+                id="start-date"
+                name="startDate"
+                type="date"
+                required
+              />
+            </div>
+
+            <button type="submit">
+              <span>Salvar planejamento</span>
+              <span aria-hidden="true">-></span>
+            </button>
+
+            <p id="form-status" class="form-status" role="status"></p>
+          </form>
+        </section>
+
+        <section id="daily-results" class="results" aria-live="polite">
+          <div class="summary-grid daily-summary-grid">
+            <article class="summary-card highlight">
+              <span>Disponível hoje</span>
+              <strong id="available-today"> R$ 0,00 </strong>
+              <small> valor que ainda pode ser utilizado </small>
+            </article>
+
+            <article class="summary-card">
+              <span>Limite base diário</span>
+              <strong id="daily-limit"> R$ 0,00 </strong>
+              <small> receita mensal ÷ 30 </small>
+            </article>
+
+            <article class="summary-card">
+              <span>Acumulado anterior</span>
+              <strong id="accumulated-balance"> R$ 0,00 </strong>
+              <small> saldo trazido dos outros dias </small>
+            </article>
+
+            <article class="summary-card">
+              <span>Gasto Hoje</span>
+              <strong id="spent-today"> R$ 0,00 </strong>
+              <small id="today-date"> aguardando planejamento </small>
+            </article>
+          </div>
+
+          <div class="daily-control">
+            <form id="expense-form" class="budget-form expense-form">
+              <div>
+                <span class="eyebrow"> NOVO GASTO </span>
+                <h2>Registrar despesa</h2>
+              </div>
+
+              <div class="field">
+                <label for="expense-description"> Descrição </label>
+                <input
+                  class="control-input"
+                  id="expense-description"
+                  name="description"
+                  type="text"
+                  maxlength="120"
+                  placeholder="Ex.: Almoço"
+                  required
+                />
+              </div>
+
+              <div class="field">
+                <label for="expense-amount"> Valor </label>
+
+                <div class="money-input">
+                  <span>R$</span>
+                  <input
+                    id="expense-amount"
+                    name="amount"
+                    inputmode="decimal"
+                    placeholder="0,00"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="expense-category"> Categoria </label>
+                <select
+                  class="control-input"
+                  name="category"
+                  id="expense-category"
+                >
+                  <option value="Alimentação">Alimentação</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="Lazer">Lazer</option>
+                  <option value="Saúde">Saúde</option>
+                  <option value="Educação">Educação</option>
+                  <option value="Compras">Compras</option>
+                  <option value="Outros" selected>Outros</option>
+                </select>
+              </div>
+
+              <button type="submit">
+                <span>Adicionar gasto</span>
+                <span aria-hidden="true">+</span>
+              </button>
+
+              <p id="expense-status" class="form-status" role="status"></p>
+            </form>
+
+            <div class="schedule-card expense-history">
+              <div class="schedule-header">
+                <div>
+                  <span class="eyebrow"> MOVIMENTAÇÂO DE HOJE </span>
+
+                  <h2>Seus gastos</h2>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="expense-table">
+                  <thead>
+                    <tr>
+                      <th>Descrição</th>
+                      <th>Categoria</th>
+                      <th>Valor</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="expense-list"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <form id="budget-form" class="budget-form">
-        <div class="field">
-          <label for="income">Receita total do mês</label>
-          <div class="money-input"><span>R$</span><input id="income" name="monthlyIncome" inputmode="decimal" placeholder="0,00" required></div>
-        </div>
-        <div class="field">
-          <label for="expenses">Total de gastos do mês</label>
-          <div class="money-input"><span>R$</span><input id="expenses" name="monthlyExpenses" inputmode="decimal" placeholder="0,00" required></div>
-        </div>
-        <div class="field">
-          <label for="start-date">Data inicial do planejamento</label>
-          <input class="date-input" id="start-date" name="startDate" type="date" required>
-        </div>
-        <button type="submit"><span>Calcular meu plano</span><span aria-hidden="true">→</span></button>
-        <p id="form-status" class="form-status" role="status"></p>
-      </form>
-    </section>
+      <div id="goal-view" class="app-view">
+        <section class="goal-hero">
+          <div class="goal-copy">
+            <span class="eyebrow">PLANEJE UMA CONQUISTA</span>
+            <h1>Uma meta.<br /><em>Um passo</em> por mês.</h1>
+            <p class="intro">
+              Escolha o valor do seu objetivo e em quanto tempo deseja
+              alcançá-lo. Nós mostramos o valor mensal e o caminho completo.
+            </p>
+            <div class="goal-quote">
+              <span>“</span>
+              <p>Grandes planos ficam mais leves quando cabem no mês.</p>
+            </div>
+          </div>
 
-    <section id="results" class="results" aria-live="polite">
-      <div class="summary-grid">
-        <article class="summary-card highlight">
-          <span>Restante total</span><strong id="total-remaining">R$ 0,00</strong><small>depois dos gastos</small>
-        </article>
-        <article class="summary-card">
-          <span>Limite diário</span><strong id="daily-limit">R$ 0,00</strong><small>receita ÷ 30 dias</small>
-        </article>
-        <article class="summary-card status-card" id="today-card">
-          <div class="status-dot"></div><span>Orientação de hoje</span><strong id="today-message">Preencha seus dados</strong>
-        </article>
+          <form id="goal-form" class="budget-form goal-form">
+            <div class="field">
+              <label for="target-amount">Valor total da meta</label>
+              <div class="money-input">
+                <span>R$</span
+                ><input
+                  id="target-amount"
+                  name="targetAmount"
+                  inputmode="decimal"
+                  placeholder="0,00"
+                  required
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label for="goal-months">Em quantos meses?</label>
+              <div class="months-input">
+                <input
+                  id="goal-months"
+                  name="months"
+                  type="number"
+                  min="1"
+                  max="600"
+                  step="1"
+                  placeholder="12"
+                  required
+                /><span>meses</span>
+              </div>
+            </div>
+            <button type="submit">
+              <span>Calcular minha meta</span><span aria-hidden="true">→</span>
+            </button>
+            <p id="goal-status" class="form-status" role="status"></p>
+          </form>
+        </section>
+
+        <section
+          id="goal-results"
+          class="results goal-results"
+          aria-live="polite"
+        >
+          <div class="goal-summary">
+            <article class="goal-primary-card">
+              <span>Você precisa guardar</span>
+              <strong id="monthly-goal">R$ 0,00</strong>
+              <small>por mês</small>
+            </article>
+            <article class="goal-detail-card">
+              <div>
+                <span>Valor da meta</span
+                ><strong id="goal-total">R$ 0,00</strong>
+              </div>
+              <div>
+                <span>Prazo escolhido</span
+                ><strong id="goal-term">0 meses</strong>
+              </div>
+              <div class="goal-progress-track">
+                <i id="goal-progress-bar"></i>
+              </div>
+              <p>
+                Seguindo o plano, você chega lá em
+                <strong id="goal-finish">0 meses</strong>.
+              </p>
+            </article>
+          </div>
+
+          <div class="schedule-card goal-schedule">
+            <div class="schedule-header">
+              <div>
+                <span class="eyebrow">EVOLUÇÃO DA META</span>
+                <h2>Seu caminho mês a mês</h2>
+              </div>
+              <span class="goal-pill" id="goal-pill">0 parcelas</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mês</th>
+                    <th>Valor a guardar</th>
+                    <th>Total acumulado</th>
+                    <th>Progresso</th>
+                  </tr>
+                </thead>
+                <tbody id="goal-schedule-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       </div>
-
-      <div class="schedule-card">
-        <div class="schedule-header">
-          <div><span class="eyebrow">VISÃO DOS PRÓXIMOS 30 DIAS</span><h2>Seu ritmo diário</h2></div>
-          <div class="legend"><span><i class="green"></i>Pode gastar</span><span><i class="amber"></i>Amanhã</span><span><i class="red"></i>Evite gastar</span></div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Data</th><th>Restante diário</th><th>Saldo do dia</th><th>Orientação</th></tr></thead>
-            <tbody id="schedule-body"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    </div>
-
-    <div id="goal-view" class="app-view">
-      <section class="goal-hero">
-        <div class="goal-copy">
-          <span class="eyebrow">PLANEJE UMA CONQUISTA</span>
-          <h1>Uma meta.<br><em>Um passo</em> por mês.</h1>
-          <p class="intro">Escolha o valor do seu objetivo e em quanto tempo deseja alcançá-lo. Nós mostramos o valor mensal e o caminho completo.</p>
-          <div class="goal-quote"><span>“</span><p>Grandes planos ficam mais leves quando cabem no mês.</p></div>
-        </div>
-
-        <form id="goal-form" class="budget-form goal-form">
-          <div class="field">
-            <label for="target-amount">Valor total da meta</label>
-            <div class="money-input"><span>R$</span><input id="target-amount" name="targetAmount" inputmode="decimal" placeholder="0,00" required></div>
-          </div>
-          <div class="field">
-            <label for="goal-months">Em quantos meses?</label>
-            <div class="months-input"><input id="goal-months" name="months" type="number" min="1" max="600" step="1" placeholder="12" required><span>meses</span></div>
-          </div>
-          <button type="submit"><span>Calcular minha meta</span><span aria-hidden="true">→</span></button>
-          <p id="goal-status" class="form-status" role="status"></p>
-        </form>
-      </section>
-
-      <section id="goal-results" class="results goal-results" aria-live="polite">
-        <div class="goal-summary">
-          <article class="goal-primary-card">
-            <span>Você precisa guardar</span>
-            <strong id="monthly-goal">R$ 0,00</strong>
-            <small>por mês</small>
-          </article>
-          <article class="goal-detail-card">
-            <div><span>Valor da meta</span><strong id="goal-total">R$ 0,00</strong></div>
-            <div><span>Prazo escolhido</span><strong id="goal-term">0 meses</strong></div>
-            <div class="goal-progress-track"><i id="goal-progress-bar"></i></div>
-            <p>Seguindo o plano, você chega lá em <strong id="goal-finish">0 meses</strong>.</p>
-          </article>
-        </div>
-
-        <div class="schedule-card goal-schedule">
-          <div class="schedule-header">
-            <div><span class="eyebrow">EVOLUÇÃO DA META</span><h2>Seu caminho mês a mês</h2></div>
-            <span class="goal-pill" id="goal-pill">0 parcelas</span>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Mês</th><th>Valor a guardar</th><th>Total acumulado</th><th>Progresso</th></tr></thead>
-              <tbody id="goal-schedule-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-  <script src="/app.js" defer></script>
-</body>
+    </main>
+    <script src="/app.js" defer></script>
+  </body>
 </html>
