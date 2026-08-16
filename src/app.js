@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const budgetRoutes = require('./routes/budgetRoutes');
 const savingsGoalRoutes = require('./routes/savingsGoalRoutes');
+const expenseRoutes = require('./routes/expenseRoutes');
 const { databaseMiddleware, hasMongoUri } = require('./config/database');
 
 const app = express();
@@ -16,6 +17,7 @@ app.get('/api/health', (_request, response) => {
 
 app.use('/api/budget', databaseMiddleware, budgetRoutes);
 app.use('/api/savings-goal', databaseMiddleware, savingsGoalRoutes);
+app.use('/api/expenses', databaseMiddleware, expenseRoutes);
 
 app.use((error, _request, response, _next) => {
   const status = error instanceof TypeError || error.name === 'ValidationError' ? 400 : 500;
