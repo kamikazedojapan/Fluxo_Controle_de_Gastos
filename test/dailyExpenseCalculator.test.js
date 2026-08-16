@@ -201,3 +201,50 @@ test('rejeita gasto de valor zero', () => {
     /maior que zero/,
   );
 });
+
+test('ignora gastos anteriores ao início do planejamento', () => {
+  const result = calculateDailySummary({
+    monthlyIncome: 3000,
+    startDate: '2026-08-10',
+    currentDate: '2026-08-10',
+
+    expenses: [
+      {
+        date: '2026-08-09',
+        amount: 90,
+      },
+    ],
+  });
+
+  assert.equal(result.spentToday, 0);
+  assert.equal(result.availableToday, 100);
+});
+
+test('ignora gastos de dias futuros', () => {
+  const result = calculateDailySummary({
+    monthlyIncome: 3000,
+    startDate: '2026-08-01',
+    currentDate: '2026-08-02',
+
+    expenses: [
+      {
+        date: '2026-08-03',
+        amount: 100,
+      },
+    ],
+  });
+
+  assert.equal(result.totalSpent, 0);
+  assert.equal(result.availableToday, 200);
+});
+
+test('libera toda a renda no último dia do planejamento', () => {
+  const result = calculateDailySummary({
+    monthlyIncome: 1000,
+    startDate: '2026-08-01',
+    currentDate: '2026-08-30',
+    expenses: [],
+  });
+
+  assert.equal(result.availableToday, 1000);
+});
