@@ -201,22 +201,27 @@ function renderExpenses(expenses) {
   expenseList.innerHTML = expenses
     .map((expense) => `
       <tr>
-
-        <td>
+        <td data-label="Descrição">
           ${escapeHtml(expense.description)}
         </td>
 
-        <td>
+        <td data-label="Categoria">
           <span class="category-pill">
             ${escapeHtml(expense.category)}
           </span>
         </td>
 
-        <td class="amount">
+        <td
+          data-label="Valor"
+          class="amount"
+        >
           ${currency.format(expense.amount)}
         </td>
 
-        <td class="expense-action">
+        <td
+          data-label="Ação"
+          class="expense-action"
+        >
           <button
             type="button"
             class="delete-expense"
